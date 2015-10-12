@@ -1,3 +1,29 @@
+## 1.0.4
+
+- Adds focus on dialogs to input or button for easier navigation. [Issue 42](https://github.com/alertifyjs/alertify.js/issues/42)
+- Adds (yet documented) option to set themes (for buttons only now)
+- Adds more unit tests
+
+## 1.0.3
+
+- Adds promise aware API [issue #32](https://github.com/alertifyjs/alertify.js/issues/32)
+- Runs Karma tests as part of development process
+
+## 1.0.2
+
+- Fixes `ngAlertify` issues
+- Adds Karma unit testing
+- Adds SauceLabs to CI process
+- Fixes website documentation typos
+- Updates rawgit link on website
+
+## 1.0.1
+
+- Fixes an [issue](https://github.com/alertifyjs/alertify.js/issues/40) with default button labels being undefined
+- Removes jQuery dependency from website
+- Updates website to better understand user interaction
+- Optimizes website a bit more for mobile
+
 ## 1.0.0-rc1
 
 - Removes the `alertify.extend` method
