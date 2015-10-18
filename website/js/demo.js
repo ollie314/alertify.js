@@ -184,4 +184,46 @@
             });
     });
 
+    demo("#log-position", function() {
+        alertify.delay(1000); // This is just to make the demo go faster.
+        alertify.log("Default bottom left position");
+        setTimeout(function() {
+            alertify.logPosition("top left");
+            alertify.log("top left");
+        }, 1500);
+        setTimeout(function() {
+            alertify.logPosition("top right");
+            alertify.log("top right");
+        }, 3000);
+        setTimeout(function() {
+            alertify.logPosition("bottom right");
+            alertify.log("bottom right");
+        }, 4500);
+        setTimeout(function() {
+            alertify.reset(); // Puts the message back to default position.
+            alertify.log("Back to default");
+        }, 6000);
+    });
+
 })();
+
+var app = angular.module("alertifyDemo", ["ngAlertify"]);
+app.controller("alertifyLogDemoCtrl", function($scope, $log, alertify) {
+
+    $scope.type = "log";
+    $scope.msg = "ngAlertify";
+    $scope.log = alertify.log;
+    $scope.error = alertify.error;
+    $scope.success = alertify.success;
+    $scope.maxLogItems = 2;
+    $scope.delay = 5000;
+
+    $scope.show = function(msg) {
+        alertify[$scope.type](msg);
+    };
+
+    $scope.$watch("closeLogOnClick", alertify.closeLogOnClick);
+    $scope.$watch("maxLogItems", alertify.maxLogItems);
+    $scope.$watch("delay", alertify.delay);
+
+});
