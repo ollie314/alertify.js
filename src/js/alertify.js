@@ -32,6 +32,7 @@
          */
         var _alertify = {
 
+            version: "1.0.8",
             defaultOkLabel: "Ok",
             okLabel: "Ok",
             defaultCancelLabel: "Cancel",
@@ -212,7 +213,11 @@
                 var log = document.createElement("div");
 
                 log.className = (type || "default");
-                log.innerHTML = message;
+                if (_alertify.logTemplateMethod) {
+                    log.innerHTML = _alertify.logTemplateMethod(message);
+                } else {
+                    log.innerHTML = message;
+                }
 
                 // Add the click handler, if specified.
                 if ("function" === typeof click) {
@@ -339,7 +344,7 @@
 
             setDelay: function(time) {
                 var dur = parseInt(time || 0, 10);
-                this.delay = isNaN(dur) ? this.defultDelay : time;
+                this.delay = isNaN(dur) ? this.defaultDelay : time;
                 return this;
             },
 
@@ -355,8 +360,8 @@
             theme: function(themeStr) {
                 switch(themeStr.toLowerCase()) {
                 case "bootstrap":
-                    this.dialogs.buttons.ok = "<button class='ok btn btn-success' tabindex='1'>{{ok}}</button>";
-                    this.dialogs.buttons.cancel = "<button class='cancel btn btn-danger' tabindex='2'>{{cancel}}</button>";
+                    this.dialogs.buttons.ok = "<button class='ok btn btn-primary' tabindex='1'>{{ok}}</button>";
+                    this.dialogs.buttons.cancel = "<button class='cancel btn btn-default' tabindex='2'>{{cancel}}</button>";
                     this.dialogs.input = "<input type='text' class='form-control'>";
                     break;
                 case "purecss":
@@ -393,6 +398,7 @@
                 this.delay = this.defaultDelay;
                 this.setCloseLogOnClick(this.closeLogOnClickDefault);
                 this.setLogPosition("bottom left");
+                this.logTemplateMethod = null;
             },
 
             injectCSS: function() {
@@ -479,13 +485,29 @@
             logPosition: function(str) {
                 _alertify.setLogPosition(str || "");
                 return this;
-            }
+            },
+            setLogTemplate: function(templateMethod) {
+                _alertify.logTemplateMethod = templateMethod;
+                return this;
+            },
+            clearLogs: function() {
+                _alertify.setupLogContainer().innerHTML = "";
+                return this;
+            },
+            version: _alertify.version
         };
     }
 
     // AMD, window, and NPM support
     if ("undefined" !== typeof module && !! module && !! module.exports) {
-        module.exports = Alertify;
+        // Preserve backwards compatibility
+        module.exports = function() {
+            return new Alertify();
+        };
+        var obj = new Alertify();
+        for (var key in obj) {
+            module.exports[key] = obj[key];
+        }
     } else if (typeof define === "function" && define.amd) {
         define(function() {
             return new Alertify();

@@ -11,6 +11,11 @@ describe("settings unit tests", function() {
         $alertify = alertify._$$alertify;
     });
 
+    it("should set a version number", function() {
+        expect(typeof alertify.version).toBe("string");
+        expect(alertify.version).toEqual($alertify.version);
+    });
+
     it("should set default maxLogItems", function() {
         expect($alertify.maxLogItems).toBe(2);
     });
@@ -106,7 +111,7 @@ describe("settings unit tests", function() {
         expect(!!document.querySelector("#alertifyCSS")).toBe(false);
     });
 
-    it("should should not inject CSS if element already exists", function() {
+    it("should not inject CSS if element already exists", function() {
         $alertify.removeCSS();
 
         var fakeCSS = document.createElement("fake");
@@ -117,4 +122,13 @@ describe("settings unit tests", function() {
         expect(document.querySelector("#alertifyCSS").tagName).toBe("FAKE");
     });
 
+    it("should change the delay", function() {
+        var newDelay;
+        newDelay = 100;
+        alertify.delay(newDelay);
+        expect($alertify.delay).toBe(newDelay);
+        // leave the typo bug
+        alertify.delay('a');
+        expect($alertify.delay).toBe($alertify.defaultDelay);
+    });
 });
