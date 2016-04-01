@@ -3,7 +3,7 @@
 var gulp = require("gulp");
 var insert = require("gulp-file-insert");
 var uglify = require("gulp-uglify");
-var minifyCSS = require("gulp-minify-css");
+var minifyCSS = require("gulp-cssnano");
 var eslint = require("gulp-eslint");
 var autoprefixer = require("gulp-autoprefixer");
 var sass = require("gulp-sass");
@@ -142,7 +142,7 @@ gulp.task("watch", function () {
 });
 
 gulp.task("build", function(cb) {
-    runSequnce("sass", "css:min", "lint", "uglify", "js:angular", cb);
+    runSequnce("sass", "css:min", "lint", "uglify", "js:angular", "website:js", "website:css", cb);
 });
 
 gulp.task("default", ["connect", "karma:tdd", "watch"]);
